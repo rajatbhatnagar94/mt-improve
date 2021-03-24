@@ -1,0 +1,21 @@
+count=75000
+LOGLEVEL=DEBUG CUDA_VISIBLE_DEVICES=0 fairseq-train /data/rajat/datasets/mt/ro-en/data/en-ro/$count/data-bin \
+--source-lang ro --target-lang en --arch transformer --task translation \
+--encoder-layers 6 --decoder-layers 6 --encoder-embed-dim 512 \
+--decoder-embed-dim 512 --encoder-ffn-embed-dim 1024 \
+--decoder-ffn-embed-dim 1024 --encoder-attention-heads 4 \
+--decoder-attention-heads 4 --encoder-normalize-before \
+--decoder-normalize-before --dropout 0.3 \
+--attention-dropout 0.2 --relu-dropout 0.2 --weight-decay 0.0001 \
+--label-smoothing 0.2 --criterion label_smoothed_cross_entropy \
+--optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 0 \
+--lr-scheduler inverse_sqrt --warmup-updates 4000 \
+--warmup-init-lr 1e-7 --lr 5e-4 --max-tokens 1000 \
+--update-freq 4 \
+--save-dir /data/rajat/datasets/mt/ro-en/data/en-ro/$count/checkpoints --seed 1 \
+--skip-invalid-size-inputs-valid-test \
+--max-epoch 200 --save-interval 5 --keep-best-checkpoints 1 \
+--log-format simple --log-interval 1 \
+--patience 12 --tensorboard-logdir /data/rajat/datasets/mt/ro-en/data/en-ro/$count/logs/tensorboard \
+--save-interval-updates 5000 --keep-interval-updates 10 --no-epoch-checkpoints --seed 100 \
+--ddp-backend no_c10d
